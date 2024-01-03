@@ -1,0 +1,11 @@
+.app-container {
+  width: 75vw;
+  margin: auto;
+  position: relative;
+  min-height: 100vh;
+}
+
+.content {
+  width: inherit;
+  padding: 1em 1em 5em 1em;
+}
