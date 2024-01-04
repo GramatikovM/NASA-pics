@@ -1,24 +1,23 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useQuery } from 'vue-query'
+import { usePicOfTheDayStore } from '@/stores/picOfTheDayStore'
 import { getApiData } from '@/services'
 import type { NasaPic } from '@/types'
 
-const currentDate = new Date().toISOString().split('T')[0]
-const imageDate = ref(currentDate)
-const updatedData = ref()
+const apiKey = import.meta.env.VITE_API_KEY
+const store = usePicOfTheDayStore()
+const imageDate = ref(store.currentDate)
 
 const { status, error, refetch } = useQuery(
   'picOfTheDay',
-  () =>
-    getApiData(
-      `https://api.nasa.gov/planetary/apod?date=${imageDate.value}&api_key=IAPT7HPmKBNPRZ0O05HwhpiC7MDxJ6kBC4i4L5zt`
-    ),
+  () => getApiData(`https://api.nasa.gov/planetary/apod?date=${imageDate.value}&api_key=${apiKey}`),
   {
-    staleTime: 0,
-    cacheTime: 0,
+    staleTime: 5 * (60 * 1000),
+    cacheTime: 10 * (60 * 1000),
     onSuccess: (data: NasaPic) => {
-      updatedData.value = data
+      store.setCurrentDate(data.date)
+      store.setPicOfTheDay(data)
     }
   }
 )
@@ -33,26 +32,25 @@ watch(imageDate, () => {
 </script>
 
 <template>
-  <div>{{ updatedData?.date }}</div>
   <div class="date-container">
     <label class="date-label" for="datepicker">Choose a date to see the image for that day: </label>
     <input type="text" id="datepicker" v-model.lazy="imageDate" @change="handleChange" />
   </div>
 
-  <div v-if="updatedData?.media_type === 'image'">
+  <div v-if="store.picOfTheDay?.media_type === 'image'">
     <div v-if="status === 'loading'">Loading...</div>
     <div v-else-if="status === 'error'">Error: {{ error.message }}</div>
     <div v-else class="card-container">
-      <h1 class="image-title">{{ updatedData?.title }}</h1>
-      <h2>Image was taken on: {{ updatedData?.date }}</h2>
+      <h1 class="image-title">{{ store.picOfTheDay?.title }}</h1>
+      <h2>Image was taken on: {{ store.picOfTheDay?.date }}</h2>
       <div>
         <h3>Fun facts:</h3>
-        <p>{{ updatedData?.explanation }}</p>
+        <p>{{ store.picOfTheDay?.explanation }}</p>
       </div>
-      <img class="picture" :src="updatedData?.url" alt="picture of the day" />
+      <img class="picture" :src="store.picOfTheDay?.url" alt="picture of the day" />
     </div>
   </div>
-  <div v-else-if="updatedData?.media_type === 'video'">Show the video</div>
+  <div v-else-if="store.picOfTheDay?.media_type === 'video'">Show the video</div>
   <div v-else>Resource unavailable.</div>
 </template>
 

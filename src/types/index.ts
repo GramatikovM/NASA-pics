@@ -4,7 +4,7 @@ export type NasaPic = {
   explanation: string
   hdurl: string
   url: string
-  mediaType: string
+  media_type: string
 }
 
 export type Options = {
@@ -18,3 +18,16 @@ export type MostRecentEarthPic = {
   date: string
   image: string
 }
+
+export type EarthLocalImage = {
+  id: string
+  date: string
+  url: string
+  resource: { planet: string }
+}
+
+export type QueryError = {
+  message: string
+}
+
+export type AllAvailableDates = Array<{ date: string }>
