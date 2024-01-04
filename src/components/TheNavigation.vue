@@ -3,10 +3,12 @@ import { RouterLink } from 'vue-router'
 import { ref } from 'vue'
 import BaseProfileMenu from './BaseProfileMenu.vue'
 
-const menuItems = ['Sign up', 'Sign in']
-let isProfileMenuShown = ref(false)
-const showProfileMenu = (): void => {
-  isProfileMenuShown.value = !isProfileMenuShown.value
+const isProfileMenuShown = ref(false)
+const showProfileMenu = () => {
+  isProfileMenuShown.value = true
+}
+const hideProfileMenu = () => {
+  isProfileMenuShown.value = false
 }
 </script>
 
@@ -17,10 +19,18 @@ const showProfileMenu = (): void => {
     <RouterLink class="nav-link" :to="{ name: 'EarthImage' }">Earth Image</RouterLink>
     <RouterLink class="nav-link" :to="{ name: 'MostRecentPic' }">Most Recent Picture</RouterLink>
     <div>
-      <button class="profile-menu-button" @click="showProfileMenu">
+      <button
+        class="profile-menu-button"
+        @mousemove="showProfileMenu"
+        @mouseleave="hideProfileMenu"
+      >
         <img class="profile-menu-pic" src="/defaultProfile.jpg" alt="profile-menu" />
       </button>
-      <BaseProfileMenu :menu-items="menuItems" v-if="isProfileMenuShown" />
+      <BaseProfileMenu
+        v-if="isProfileMenuShown"
+        @mousemove="showProfileMenu"
+        @mouseleave="hideProfileMenu"
+      />
     </div>
   </nav>
 </template>

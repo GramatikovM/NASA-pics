@@ -2,45 +2,42 @@
 import { computed, ref, watch } from 'vue'
 import { useQuery } from 'vue-query'
 import { getApiData } from '@/services'
-import type { MostRecentEarthPic } from '@/types'
+import type { MostRecentEarthPic, AllAvailableDates } from '@/types'
+import { useMostRecentPicsStore } from '@/stores/mostRecentPicsStore'
 
-const chosenDate = ref()
-const {
-  status: allDateStatus,
-  data: allDateData,
-  error: allDateError
-} = useQuery(
+const apiKey = import.meta.env.VITE_API_KEY
+const store = useMostRecentPicsStore()
+const chosenDate = ref(store.chosenDate)
+const { status: allDateStatus, error: allDateError } = useQuery(
   'allDates',
-  () =>
-    getApiData(
-      'https://api.nasa.gov/EPIC/api/enhanced/all/?api_key=IAPT7HPmKBNPRZ0O05HwhpiC7MDxJ6kBC4i4L5zt'
-    ),
+  () => getApiData(`https://api.nasa.gov/EPIC/api/enhanced/all/?api_key=${apiKey}`),
   {
-    staleTime: 0,
-    cacheTime: 0,
-    onSuccess: (data: MostRecentEarthPic[]) => {
-      chosenDate.value = data[0]?.date
+    staleTime: 10 * (60 * 1000),
+    cacheTime: 15 * (60 * 1000),
+    onSuccess: (data: AllAvailableDates) => {
+      store.setChosenDate(data[0].date)
+      store.setAllAvailableDates(data)
     }
   }
 )
 
-const enabled = computed(() => (allDateData.value ? !!allDateData.value[0]?.date : false))
+const enabled = computed(() => !!store.chosenDate)
 
 const {
   status: mostRecentStatus,
-  data: mostRecentData,
   error: mostRecentError,
   isIdle,
   refetch
 } = useQuery(
   'mostRecentPic',
   () =>
-    getApiData(
-      `https://api.nasa.gov/EPIC/api/enhanced/date/${chosenDate.value}?api_key=IAPT7HPmKBNPRZ0O05HwhpiC7MDxJ6kBC4i4L5zt`
-    ),
+    getApiData(`https://api.nasa.gov/EPIC/api/enhanced/date/${chosenDate.value}?api_key=${apiKey}`),
   {
-    staleTime: Infinity,
-    cacheTime: 0,
+    staleTime: 5 * (60 * 1000),
+    cacheTime: 10 * (60 * 1000),
+    onSuccess: (data: MostRecentEarthPic[]) => {
+      store.setmostRecentPics(data)
+    },
     enabled
   }
 )
@@ -62,7 +59,7 @@ watch(chosenDate, () => {
   <div v-else class="date-label">
     <label for="allDates">Choose date:</label>
     <select id="allDates" v-model="chosenDate" @change="handleOptionSelect">
-      <option v-for="item in allDateData" :key="item.identifier">
+      <option v-for="item in store.allAvailableDates" :key="item.date">
         {{ item.date }}
       </option>
     </select>
@@ -78,7 +75,7 @@ watch(chosenDate, () => {
       Camera (EPIC) instrument:
     </h1>
     <div class="image-gallery">
-      <div v-for="item in mostRecentData" :key="item.identifier" class="image-item">
+      <div v-for="item in store.mostRecentPics" :key="item.identifier" class="image-item">
         <div>Time: {{ item.date }}</div>
         <img
           class="image"
@@ -120,3 +117,4 @@ watch(chosenDate, () => {
   height: 200px;
 }
 </style>
+@/stores/mostRecentPicsStore
