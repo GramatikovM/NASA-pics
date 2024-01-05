@@ -79,4 +79,10 @@ watch(imageDate, () => {
 .picture {
   width: inherit;
 }
+
+@media only screen and (max-width: 500px) {
+  div .date-label {
+    font-size: 1em;
+  }
+}
 </style>

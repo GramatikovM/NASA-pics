@@ -34,6 +34,7 @@ import { RouterLink } from 'vue-router'
 }
 .social-icon-container {
   display: flex;
+  align-items: center;
   gap: 1em;
 }
 .social-icon {
@@ -46,6 +47,8 @@ import { RouterLink } from 'vue-router'
   display: flex;
 }
 .footer-link {
+  display: flex;
+  align-items: center;
   font-size: 1.1em;
   padding: 0.5em;
   color: #000000;
@@ -56,5 +59,30 @@ import { RouterLink } from 'vue-router'
 .footer-link:hover {
   color: #ffffff;
   background-color: #6a33fe;
+}
+
+@media only screen and (max-width: 770px) {
+  div .footer-container {
+    padding: 0.65em 1em;
+  }
+  div .social-icon-container {
+    gap: 0.5em;
+  }
+  div .footer-link {
+    font-size: 1.05em;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  div .footer-container {
+    padding: 0.2em;
+  }
+  div .footer-link {
+    font-size: 0.9em;
+  }
+  div .social-icon {
+    width: 25px;
+    height: 25px;
+  }
 }
 </style>

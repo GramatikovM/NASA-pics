@@ -61,4 +61,14 @@ const handleLogOut = () => {
 .profile-menu-item:hover {
   background-color: #f3f4f8e5;
 }
+
+@media only screen and (max-width: 480px) {
+  div .profile-menu {
+    padding: 0.5em;
+  }
+  ul .profile-menu-item {
+    font-size: 1em;
+    padding: 0.3em 0;
+  }
+}
 </style>

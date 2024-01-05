@@ -37,4 +37,24 @@ a {
   text-decoration: none;
   color: unset;
 }
+
+@media only screen and (max-width: 850px) {
+  .the-logo {
+    width: 50px;
+  }
+  .app-name {
+    font-size: 1.1em;
+  }
+}
+@media only screen and (max-width: 480px) {
+  div .header-container {
+    padding: 1em 1em;
+  }
+  .the-logo {
+    width: 40px;
+  }
+  a .app-name {
+    font-size: 1.05em;
+  }
+}
 </style>
