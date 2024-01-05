@@ -9,3 +9,9 @@
   width: inherit;
   padding: 1em 1em 5em 1em;
 }
+
+@media only screen and (max-width: 750px) {
+  div .content {
+    padding: 0.5em;
+  }
+}
