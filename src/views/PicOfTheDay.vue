@@ -4,6 +4,7 @@ import { useQuery } from 'vue-query'
 import { usePicOfTheDayStore } from '@/stores/picOfTheDayStore'
 import { getApiData } from '@/services'
 import type { NasaPic } from '@/types'
+import BaseButton from '@/components/BaseButton.vue'
 
 const apiKey = import.meta.env.VITE_API_KEY
 const store = usePicOfTheDayStore()
@@ -24,6 +25,9 @@ const { status, error, refetch } = useQuery(
 
 const handleChange = (event: Event) => {
   imageDate.value = (event.target as HTMLOptionElement).value
+}
+const handleImageSave = () => {
+  store.addToFavourites(store.picOfTheDay)
 }
 
 watch(imageDate, () => {
@@ -47,6 +51,7 @@ watch(imageDate, () => {
         <h3>Fun facts:</h3>
         <p>{{ store.picOfTheDay?.explanation }}</p>
       </div>
+      <BaseButton text="Save to Favourites" :action="handleImageSave" />
       <img class="picture" :src="store.picOfTheDay?.url" alt="picture of the day" />
     </div>
   </div>

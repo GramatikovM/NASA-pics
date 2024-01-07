@@ -31,3 +31,11 @@ export type QueryError = {
 }
 
 export type AllAvailableDates = Array<{ date: string }>
+
+export type UserData = {
+  token?: string
+  id?: string
+  nickname?: string
+  email?: string
+  avatar?: string
+}

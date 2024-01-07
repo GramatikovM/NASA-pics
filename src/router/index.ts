@@ -7,6 +7,7 @@ import PicOfTheDay from '../views/PicOfTheDay.vue'
 import AboutUsVue from '@/views/AboutUs.vue'
 import ContactUsVue from '@/views/ContactUs.vue'
 import PrivacyPolicyVue from '@/views/PrivacyPolicy.vue'
+import MyProfile from '@/views/MyProfile.vue'
 
 const routes = [
   { path: '/', name: 'HomepageEl', component: HomepageEl },
@@ -18,6 +19,7 @@ const routes = [
     beforeEnter: authGuard
   },
   { path: '/pic-of-the-day', name: 'PicOfTheDay', component: PicOfTheDay, beforeEnter: authGuard },
+  { path: '/my-profile', name: 'MyProfile', component: MyProfile, beforeEnter: authGuard },
   { path: '/about-us', name: 'AboutUs', component: AboutUsVue },
   { path: '/contact-use', name: 'ContactUs', component: ContactUsVue },
   { path: '/privacy-policy', name: 'PrivacyPolicy', component: PrivacyPolicyVue }
