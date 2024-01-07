@@ -11,21 +11,21 @@ import { HOMEPAGE_DATA } from '../contants'
     <BaseAppExample
       :pageTitle="HOMEPAGE_DATA.DAY_PICTURE_TITLE"
       :aboutPageText="HOMEPAGE_DATA.DAY_PICTURE_TEXT"
-      exampleImageSrc="../../public/apod-example.jpg"
+      exampleImageSrc="/apod-example.jpg"
       exampleImageAlt="pic of the day example"
     />
 
     <BaseAppExample
       :pageTitle="HOMEPAGE_DATA.EARTH_IMAGE_TITLE"
       :aboutPageText="HOMEPAGE_DATA.EARTH_IMAGE_TEXT"
-      exampleImageSrc="../../public/earth-api-example.png"
+      exampleImageSrc="/earth-api-example.png"
       exampleImageAlt="earth-example"
     />
 
     <BaseAppExample
       :pageTitle="HOMEPAGE_DATA.MOST_RECENT_TITLE"
       :aboutPageText="HOMEPAGE_DATA.MOST_RECENT_TEXT"
-      exampleImageSrc="../../public/epic-api-example.png"
+      exampleImageSrc="/epic-api-example.png"
       exampleImageAlt="epic-example"
     />
   </div>

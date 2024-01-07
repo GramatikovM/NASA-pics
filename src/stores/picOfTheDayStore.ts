@@ -7,7 +7,7 @@ export const usePicOfTheDayStore = defineStore(
   () => {
     const currentDate = ref('')
     const picOfTheDay = ref<NasaPic>()
-    const favouritePics = ref<string[]>([])
+    const favouritePics = ref<NasaPic[]>([])
 
     function setCurrentDate(this: any, date: string) {
       this.currentDate = date
@@ -17,12 +17,17 @@ export const usePicOfTheDayStore = defineStore(
       this.picOfTheDay = pic
     }
 
+    function addToFavourites(this: any, pic?: NasaPic) {
+      this.favouritePics.push(pic)
+    }
+
     return {
       currentDate,
       picOfTheDay,
       favouritePics,
       setCurrentDate,
-      setPicOfTheDay
+      setPicOfTheDay,
+      addToFavourites
     }
   },
   { persist: { storage: sessionStorage } }

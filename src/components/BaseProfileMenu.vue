@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { RouterLink } from 'vue-router'
 import { useAuth0 } from '@auth0/auth0-vue'
 
 const { loginWithRedirect, isAuthenticated, logout } = useAuth0()
@@ -38,6 +39,7 @@ const handleLogOut = () => {
       <li class="profile-menu-item" @click="handleLogIn">LogIn</li>
     </ul>
     <ul v-else>
+      <RouterLink class="profile-menu-link" :to="{ name: 'MyProfile' }">Profile</RouterLink>
       <li class="profile-menu-item" @click="handleLogOut">Log Out</li>
     </ul>
   </menu>
@@ -53,12 +55,21 @@ const handleLogOut = () => {
   border-radius: 6px;
   border: 1px solid #e2e3e7e5;
 }
-.profile-menu-item {
+.profile-menu-item,
+.profile-menu-link {
   padding: 0.5em 0.1em;
   font-size: 1.1em;
   cursor: pointer;
 }
-.profile-menu-item:hover {
+.profile-menu-link {
+  color: #000000;
+  text-decoration: none;
+}
+.profile-menu-link:hover {
+  color: #000000;
+}
+.profile-menu-item:hover,
+.profile-menu-link:hover {
   background-color: #f3f4f8e5;
 }
 
