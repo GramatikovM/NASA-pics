@@ -1,31 +1,20 @@
 <script setup lang="ts">
 import { useAuth0 } from '@auth0/auth0-vue'
-import { auth0 } from '../main'
-import BaseButton from '@/components/BaseButton.vue'
 import { usePicOfTheDayStore } from '@/stores/picOfTheDayStore'
-import updateCurrentUserData from '@/services/updateCurrentUserData'
-import type { UserData } from '@/types'
+import BaseButton from '@/components/BaseButton.vue'
 
 const { user } = useAuth0()
 const store = usePicOfTheDayStore()
-// console.log(user.value)
-// console.log(auth0.idTokenClaims.value?.__raw)
-// console.log(await auth0.getAccessTokenSilently())
 
-const userData = {
-  token: await auth0.getAccessTokenSilently(),
-  id: user.value?.sub,
-  nickname: 'updatedFirstUser'
-}
-
-const updateUserDetails = async () => {
-  const updatedUser = await updateCurrentUserData(userData)
-  console.log(updatedUser)
+const handleRemoveImage = (event?: Event) => {
+  const title = (event?.target as HTMLElement).parentElement?.firstChild?.textContent
+  title && store.removeFromFavourites(title)
 }
 </script>
 
 <template>
   <div class="profile-page-container">
+    <h1 class="fav-heading">Your Profile:</h1>
     <div class="user-data-container">
       <p>
         Nickname: <span class="user-details">{{ user?.nickname }}</span>
@@ -35,7 +24,6 @@ const updateUserDetails = async () => {
       </p>
       <p>Avatar:</p>
       <img class="avatar" :src="user?.picture" alt="avatar" />
-      <BaseButton text="Edit Profile" :action="updateUserDetails" />
     </div>
     <h1 class="fav-heading">Your favourite images:</h1>
     <div class="favourite-images-container">
@@ -43,6 +31,7 @@ const updateUserDetails = async () => {
         <h2>{{ image.title }}</h2>
         <p>{{ image.date }}</p>
         <img class="favourite-image" :src="image.url" />
+        <BaseButton text="Remove Image" :action="handleRemoveImage" />
       </div>
     </div>
   </div>
@@ -57,7 +46,7 @@ const updateUserDetails = async () => {
   gap: 1em;
 }
 .user-data-container {
-  margin: 1em;
+  margin-bottom: 1em;
   padding: 1.5em;
   display: flex;
   flex-direction: column;

@@ -18,7 +18,13 @@ export const usePicOfTheDayStore = defineStore(
     }
 
     function addToFavourites(this: any, pic?: NasaPic) {
-      this.favouritePics.push(pic)
+      if (this.favouritePics.some((image: NasaPic) => image.title !== pic?.title)) {
+        this.favouritePics.push(pic)
+      }
+    }
+
+    function removeFromFavourites(this: any, title: string) {
+      this.favouritePics = this.favouritePics.filter((image: NasaPic) => image.title !== title)
     }
 
     return {
@@ -27,7 +33,8 @@ export const usePicOfTheDayStore = defineStore(
       favouritePics,
       setCurrentDate,
       setPicOfTheDay,
-      addToFavourites
+      addToFavourites,
+      removeFromFavourites
     }
   },
   { persist: { storage: sessionStorage } }

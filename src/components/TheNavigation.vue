@@ -3,6 +3,11 @@ import { RouterLink } from 'vue-router'
 import { ref } from 'vue'
 import BaseProfileMenu from './BaseProfileMenu.vue'
 
+interface Props {
+  avatarPic?: string
+}
+defineProps<Props>()
+
 const isProfileMenuShown = ref(false)
 const isBurgerMenuShown = ref(false)
 const showProfileMenu = () => {
@@ -40,7 +45,11 @@ const hideBurgerMenu = () => {
         @mousemove="showProfileMenu"
         @mouseleave="hideProfileMenu"
       >
-        <img class="profile-menu-pic" src="/defaultProfile.jpg" alt="profile-menu" />
+        <img
+          class="profile-menu-pic"
+          :src="avatarPic || '/defaultProfile.jpg'"
+          alt="profile-menu"
+        />
       </button>
       <BaseProfileMenu
         v-if="isProfileMenuShown"

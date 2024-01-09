@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+import { computed } from 'vue'
+import { useAuth0 } from '@auth0/auth0-vue'
 import TheNavigation from './TheNavigation.vue'
+
+const { user, isAuthenticated } = useAuth0()
+const avatarPic = computed(() => (isAuthenticated ? user.value?.picture : '/defaultProfile.jpg'))
 </script>
 
 <template>
@@ -9,7 +14,7 @@ import TheNavigation from './TheNavigation.vue'
       <img class="the-logo" src="/logo.jpg" alt="logo" />
       <h1 class="app-name">The Universe App</h1>
     </RouterLink>
-    <TheNavigation />
+    <TheNavigation :avatarPic="avatarPic" />
   </div>
 </template>
 

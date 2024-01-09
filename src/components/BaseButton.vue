@@ -1,7 +1,7 @@
 <script setup lang="ts">
 interface Props {
   text: string
-  action?: () => void
+  action?: (event?: Event) => void
 }
 
 defineProps<Props>()
